@@ -21,7 +21,7 @@ class CoronaTestListFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_corona_test_list, container, false)
         val binding = FragmentCoronaTestListBinding.bind(view);
         val sampleData = CoronaTest.sample;
-        val locations = sampleData.map {
+        val arrayAdapterValues = sampleData.map {
             val dateString = it.date.format(DateTimeFormatter.ISO_DATE_TIME)
             val locationName = it.location.name
 
@@ -37,7 +37,7 @@ class CoronaTestListFragment : Fragment() {
         }
 
         context?.let {
-            val adapter = ArrayAdapter<String>(it, android.R.layout.simple_list_item_1, locations)
+            val adapter = ArrayAdapter<String>(it, android.R.layout.simple_list_item_1, arrayAdapterValues)
             binding.listView.adapter = adapter
         }
 
