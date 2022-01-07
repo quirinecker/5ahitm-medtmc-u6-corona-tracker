@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import com.example.coronatesttracker.adapter.CoronaTestListAdapter
 import com.example.coronatesttracker.databinding.FragmentCoronaTestListBinding
 import com.example.coronatesttracker.model.CoronaTest
 import java.time.format.DateTimeFormatter
@@ -21,6 +22,7 @@ class CoronaTestListFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_corona_test_list, container, false)
         val binding = FragmentCoronaTestListBinding.bind(view);
         val sampleData = CoronaTest.sample;
+
         val arrayAdapterValues = sampleData.map {
             val dateString = it.date.format(DateTimeFormatter.ISO_DATE_TIME)
             val locationName = it.location.name
@@ -37,7 +39,7 @@ class CoronaTestListFragment : Fragment() {
         }
 
         context?.let {
-            val adapter = ArrayAdapter(it, android.R.layout.simple_list_item_1, arrayAdapterValues)
+            val adapter = CoronaTestListAdapter(it, sampleData)
             binding.listView.adapter = adapter
         }
 
