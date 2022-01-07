@@ -9,5 +9,14 @@
         android:id="@+id/coronaTestListFragment"
         android:name="com.example.coronatesttracker.CoronaTestListFragment"
         android:label="fragment_corona_test_list"
-        tools:layout="@layout/fragment_corona_test_list" />
+        tools:layout="@layout/fragment_corona_test_list" >
+        <action
+            android:id="@+id/action_coronaTestListFragment_to_inputScreenFragment"
+            app:destination="@id/inputScreenFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/inputScreenFragment"
+        android:name="com.example.coronatesttracker.InputScreenFragment"
+        android:label="fragment_input_screen"
+        tools:layout="@layout/fragment_input_screen" />
 </navigation>

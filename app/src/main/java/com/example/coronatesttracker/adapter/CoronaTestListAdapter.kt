@@ -4,8 +4,10 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.BaseAdapter
 import androidx.core.content.res.ResourcesCompat
+import androidx.navigation.findNavController
 import com.example.coronatesttracker.R
 import com.example.coronatesttracker.databinding.ListItemBinding
 import com.example.coronatesttracker.model.CoronaTest
@@ -53,6 +55,15 @@ class CoronaTestListAdapter(private val context: Context, private val tests: Arr
         }
 
         return convertView!!
+    }
+
+    fun onClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        view?.let {
+            val navController = view.findNavController();
+            navController.navigate(R.id.action_coronaTestListFragment_to_inputScreenFragment)
+        }
+
+
     }
 
 }
