@@ -37,7 +37,7 @@ class CoronaTestListFragment : Fragment() {
         }
 
         context?.let {
-            val adapter = ArrayAdapter<String>(it, android.R.layout.simple_list_item_1, arrayAdapterValues)
+            val adapter = ArrayAdapter(it, android.R.layout.simple_list_item_1, arrayAdapterValues)
             binding.listView.adapter = adapter
         }
 
