@@ -22,9 +22,7 @@
 
         <argument
             android:name="coronaTest"
-            app:argType="com.example.coronatesttracker.model.CoronaTest"
-            app:nullable="true"
-            android:defaultValue="@null"/>
+            app:argType="com.example.coronatesttracker.model.CoronaTest" />
 
     </fragment>
 </navigation>

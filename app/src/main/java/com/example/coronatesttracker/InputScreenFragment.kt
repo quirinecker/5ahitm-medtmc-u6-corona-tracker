@@ -28,26 +28,37 @@ class InputScreenFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_input_screen, container, false)
-        binding = FragmentInputScreenBinding.bind(view)
 
+        setBinding(view)
+        setTestToEdit(args)
         setInputs()
+        setListeners()
 
-        binding.saveButton.setOnClickListener {
-            save()
-        }
-
-        // Inflate the layout for this fragment
         return view
     }
 
-    private fun save() {
-        args.coronaTest?.let {
-            it.location = getPlace()
-            it.result = getResult()
-            it.date = getDate()
+    private fun setTestToEdit(args: InputScreenFragmentArgs) {
+        test = args.coronaTest
+    }
 
-            returnToListView()
+    private fun setBinding(view: View?) {
+        view?.let {
+            binding = FragmentInputScreenBinding.bind(it)
         }
+    }
+
+    private fun setListeners() {
+        binding.saveButton.setOnClickListener {
+            save()
+        }
+    }
+
+    private fun save() {
+        test.location = getPlace()
+        test.result = getResult()
+        test.date = getDate()
+
+        returnToListView()
     }
 
     private fun returnToListView() {
@@ -67,12 +78,10 @@ class InputScreenFragment : Fragment() {
     }
 
     private fun setInputs() {
-        args.coronaTest?.let { test ->
-            setId(test)
-            setLocation(test)
-            setDate(test)
-            setResult(test)
-        }
+        setId(test)
+        setLocation(test)
+        setDate(test)
+        setResult(test)
     }
 
     private fun setDate(test: CoronaTest) {
@@ -92,7 +101,7 @@ class InputScreenFragment : Fragment() {
         context?.let {
             val coronaTestResultOptions = CoronaTestResult.values()
 
-            val adapter = ArrayAdapter<String>(
+            val adapter = ArrayAdapter(
                 it,
                 android.R.layout.simple_spinner_item,
                 coronaTestResultOptions.map { entry -> entry.toString() }
