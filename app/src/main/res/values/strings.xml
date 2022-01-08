@@ -2,7 +2,9 @@
     <string name="app_name">Corona Test Tracker</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="id_sample">OÖ...1234</string>
+    <string name="id_sample">OÖ…1234</string>
     <string name="place_sample">linz</string>
     <string name="date_sample">YYYY-MM-DDTHH:mm</string>
+    <string name="create_button">Erstellen</string>
+    <string name="daily_overview_button">Tagesübersicht</string>
 </resources>
