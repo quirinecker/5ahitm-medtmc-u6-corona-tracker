@@ -1,6 +1,8 @@
 package com.example.coronatesttracker.model
 
-enum class CoronaTestResult {
+import java.io.Serializable
+
+enum class CoronaTestResult: Serializable {
     POSITIVE,
     NEGATIVE
 }

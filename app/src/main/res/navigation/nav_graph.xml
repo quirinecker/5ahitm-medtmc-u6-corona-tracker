@@ -12,11 +12,19 @@
         tools:layout="@layout/fragment_corona_test_list" >
         <action
             android:id="@+id/action_coronaTestListFragment_to_inputScreenFragment"
-            app:destination="@id/inputScreenFragment" />
+            app:destination="@id/inputScreenFragment"/>
     </fragment>
     <fragment
         android:id="@+id/inputScreenFragment"
         android:name="com.example.coronatesttracker.InputScreenFragment"
         android:label="fragment_input_screen"
-        tools:layout="@layout/fragment_input_screen" />
+        tools:layout="@layout/fragment_input_screen">
+
+        <argument
+            android:name="coronaTest"
+            app:argType="com.example.coronatesttracker.model.CoronaTest"
+            app:nullable="true"
+            android:defaultValue="@null"/>
+
+    </fragment>
 </navigation>
