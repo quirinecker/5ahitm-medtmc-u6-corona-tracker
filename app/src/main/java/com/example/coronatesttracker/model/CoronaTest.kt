@@ -7,9 +7,9 @@ import java.util.*
 
 data class CoronaTest(
     val id: Int,
-    val date: LocalDateTime,
-    val result: CoronaTestResult,
-    val location: Location,
+    var date: LocalDateTime,
+    var result: CoronaTestResult,
+    var location: Location,
 ): Serializable {
     companion object {
         val sample = arrayOf(

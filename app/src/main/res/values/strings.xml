@@ -7,4 +7,9 @@
     <string name="date_sample">YYYY-MM-DDTHH:mm</string>
     <string name="create_button">Erstellen</string>
     <string name="daily_overview_button">Tagesübersicht</string>
+    <string name="date_time_label">Datum</string>
+    <string name="result_label">Ergebnis</string>
+    <string name="place_label">Standort</string>
+    <string name="save_button">speichern</string>
+    <string name="date_time_label_hint">dd.MM.yyyy hh:mm</string>
 </resources>
