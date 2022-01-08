@@ -6,43 +6,51 @@ import java.time.LocalDateTime
 import java.util.*
 
 data class CoronaTest(
-    val id: Int,
-    var date: LocalDateTime,
-    var result: CoronaTestResult,
-    var location: Location,
+    val id: String = nextId(),
+    var date: LocalDateTime? = null,
+    var result: CoronaTestResult? = null,
+    var location: Location? = null,
 ): Serializable {
     companion object {
+        private var currentIdNumber = 1000
+
+        fun nextId(): String {
+            val idString = "OÖ…$currentIdNumber"
+            currentIdNumber++
+            return idString
+        }
+
         val sample = arrayOf(
-            CoronaTest(0, LocalDateTime.now(), CoronaTestResult.NEGATIVE, Location.LEON),
-            CoronaTest(1, LocalDateTime.now(), CoronaTestResult.POSITIVE, Location.LINZ),
-            CoronaTest(1, LocalDateTime.now(), CoronaTestResult.POSITIVE, Location.LINZ),
-            CoronaTest(1, LocalDateTime.now(), CoronaTestResult.POSITIVE, Location.LINZ),
-            CoronaTest(1, LocalDateTime.now(), CoronaTestResult.POSITIVE, Location.LINZ),
-            CoronaTest(1, LocalDateTime.now(), CoronaTestResult.POSITIVE, Location.LINZ),
-            CoronaTest(1, LocalDateTime.now(), CoronaTestResult.POSITIVE, Location.LINZ),
-            CoronaTest(1, LocalDateTime.now(), CoronaTestResult.POSITIVE, Location.LINZ),
-            CoronaTest(1, LocalDateTime.now(), CoronaTestResult.POSITIVE, Location.LINZ),
-            CoronaTest(1, LocalDateTime.now(), CoronaTestResult.POSITIVE, Location.LINZ),
-            CoronaTest(1, LocalDateTime.now(), CoronaTestResult.POSITIVE, Location.LINZ),
-            CoronaTest(1, LocalDateTime.now(), CoronaTestResult.POSITIVE, Location.LINZ),
-            CoronaTest(1, LocalDateTime.now(), CoronaTestResult.POSITIVE, Location.LINZ),
-            CoronaTest(1, LocalDateTime.now(), CoronaTestResult.POSITIVE, Location.LINZ),
-            CoronaTest(1, LocalDateTime.now(), CoronaTestResult.POSITIVE, Location.LINZ),
-            CoronaTest(1, LocalDateTime.now(), CoronaTestResult.POSITIVE, Location.LINZ),
-            CoronaTest(1, LocalDateTime.now(), CoronaTestResult.POSITIVE, Location.LINZ),
-            CoronaTest(1, LocalDateTime.now(), CoronaTestResult.POSITIVE, Location.LINZ),
-            CoronaTest(1, LocalDateTime.now(), CoronaTestResult.POSITIVE, Location.LINZ),
-            CoronaTest(1, LocalDateTime.now(), CoronaTestResult.POSITIVE, Location.LINZ),
-            CoronaTest(1, LocalDateTime.now(), CoronaTestResult.POSITIVE, Location.LINZ),
-            CoronaTest(1, LocalDateTime.now(), CoronaTestResult.POSITIVE, Location.LINZ),
-            CoronaTest(1, LocalDateTime.now(), CoronaTestResult.POSITIVE, Location.LINZ),
-            CoronaTest(1, LocalDateTime.now(), CoronaTestResult.POSITIVE, Location.LINZ),
-            CoronaTest(1, LocalDateTime.now(), CoronaTestResult.POSITIVE, Location.LINZ),
-            CoronaTest(1, LocalDateTime.now(), CoronaTestResult.POSITIVE, Location.LINZ),
-            CoronaTest(1, LocalDateTime.now(), CoronaTestResult.POSITIVE, Location.LINZ),
-            CoronaTest(1, LocalDateTime.now(), CoronaTestResult.POSITIVE, Location.LINZ),
-            CoronaTest(1, LocalDateTime.now(), CoronaTestResult.POSITIVE, Location.LINZ),
-            CoronaTest(3, LocalDateTime.now(), CoronaTestResult.NEGATIVE, Location.HAID)
+            CoronaTest(date = LocalDateTime.now(), result = CoronaTestResult.NEGATIVE, location = Location.LEON),
+            CoronaTest(date = LocalDateTime.now(), result = CoronaTestResult.POSITIVE, location = Location.LINZ),
+            CoronaTest(date = LocalDateTime.now(), result = CoronaTestResult.POSITIVE, location = Location.LINZ),
+            CoronaTest(date = LocalDateTime.now(), result = CoronaTestResult.POSITIVE, location = Location.LINZ),
+            CoronaTest(date = LocalDateTime.now(), result = CoronaTestResult.POSITIVE, location = Location.LINZ),
+            CoronaTest(date = LocalDateTime.now(), result = CoronaTestResult.POSITIVE, location = Location.LINZ),
+            CoronaTest(date = LocalDateTime.now(), result = CoronaTestResult.POSITIVE, location = Location.LINZ),
+            CoronaTest(date = LocalDateTime.now(), result = CoronaTestResult.POSITIVE, location = Location.LINZ),
+            CoronaTest(date = LocalDateTime.now(), result = CoronaTestResult.POSITIVE, location = Location.LINZ),
+            CoronaTest(date = LocalDateTime.now(), result = CoronaTestResult.POSITIVE, location = Location.LINZ),
+            CoronaTest(date = LocalDateTime.now(), result = CoronaTestResult.POSITIVE, location = Location.LINZ),
+            CoronaTest(date = LocalDateTime.now(), result = CoronaTestResult.POSITIVE, location = Location.LINZ),
+            CoronaTest(date = LocalDateTime.now(), result = CoronaTestResult.POSITIVE, location = Location.LINZ),
+            CoronaTest(date = LocalDateTime.now(), result = CoronaTestResult.POSITIVE, location = Location.LINZ),
+            CoronaTest(date = LocalDateTime.now(), result = CoronaTestResult.POSITIVE, location = Location.LINZ),
+            CoronaTest(date = LocalDateTime.now(), result = CoronaTestResult.POSITIVE, location = Location.LINZ),
+            CoronaTest(date = LocalDateTime.now(), result = CoronaTestResult.POSITIVE, location = Location.LINZ),
+            CoronaTest(date = LocalDateTime.now(), result = CoronaTestResult.POSITIVE, location = Location.LINZ),
+            CoronaTest(date = LocalDateTime.now(), result = CoronaTestResult.POSITIVE, location = Location.LINZ),
+            CoronaTest(date = LocalDateTime.now(), result = CoronaTestResult.POSITIVE, location = Location.LINZ),
+            CoronaTest(date = LocalDateTime.now(), result = CoronaTestResult.POSITIVE, location = Location.LINZ),
+            CoronaTest(date = LocalDateTime.now(), result = CoronaTestResult.POSITIVE, location = Location.LINZ),
+            CoronaTest(date = LocalDateTime.now(), result = CoronaTestResult.POSITIVE, location = Location.LINZ),
+            CoronaTest(date = LocalDateTime.now(), result = CoronaTestResult.POSITIVE, location = Location.LINZ),
+            CoronaTest(date = LocalDateTime.now(), result = CoronaTestResult.POSITIVE, location = Location.LINZ),
+            CoronaTest(date = LocalDateTime.now(), result = CoronaTestResult.POSITIVE, location = Location.LINZ),
+            CoronaTest(date = LocalDateTime.now(), result = CoronaTestResult.POSITIVE, location = Location.LINZ),
+            CoronaTest(date = LocalDateTime.now(), result = CoronaTestResult.POSITIVE, location = Location.LINZ),
+            CoronaTest(date = LocalDateTime.now(), result = CoronaTestResult.POSITIVE, location = Location.LINZ),
+            CoronaTest(date = LocalDateTime.now(), result = CoronaTestResult.NEGATIVE, location = Location.HAID)
         )
     }
 }

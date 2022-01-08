@@ -36,17 +36,25 @@ class CoronaTestListAdapter(private val context: Context, private val tests: Arr
             convertView = LayoutInflater.from(context).inflate(R.layout.list_item, parent, false)
         }
 
-        convertView?.let {
-            val binding = ListItemBinding.bind(it)
+        convertView?.let { view ->
+            val binding = ListItemBinding.bind(view)
             val test = tests[position]
 
-            binding.dateField.text = tests[position].date.format(DateTimeFormatter.ISO_DATE_TIME)
-            binding.idField.text = test.id.toString()
-            binding.placeField.text = test.location.name
+
+            test.date?.let {
+                binding.dateField.text = it.format(DateTimeFormatter.ISO_DATE_TIME)
+            }
+
+            test.location?.let {
+                binding.placeField.text = it.name
+            }
+
+            binding.idField.text = test.id
 
             val colorId = when(test.result) {
                 CoronaTestResult.POSITIVE -> R.color.positive
                 CoronaTestResult.NEGATIVE -> R.color.negative
+                null -> R.color.negative
             }
 
             binding.resultColorCode.setBackgroundColor(ResourcesCompat.getColor(

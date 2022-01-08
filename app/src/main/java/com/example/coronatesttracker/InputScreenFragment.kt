@@ -85,16 +85,24 @@ class InputScreenFragment : Fragment() {
     }
 
     private fun setDate(test: CoronaTest) {
-        val dateString = test.date.format(dateTimeFormatter)
-        binding.dateField.setText(dateString)
+        test.date?.let {
+            val dateString = it.format(dateTimeFormatter)
+            binding.dateField.setText(dateString)
+        } ?: run {
+            binding.dateField.setText("")
+        }
     }
 
     private fun setLocation(test: CoronaTest) {
-        binding.placeField.setText(test.location.name)
+        test.location?.let {
+            binding.placeField.setText(it.name)
+        } ?: run{
+            binding.placeField.setText("")
+        }
     }
 
     private fun setId(test: CoronaTest) {
-        binding.idField.text = test.id.toString()
+        binding.idField.text = test.id
     }
 
     private fun setResult(test: CoronaTest) {
@@ -116,6 +124,10 @@ class InputScreenFragment : Fragment() {
     private fun getSelectionIndexOf(
         test: CoronaTest
     ): Int {
-        return CoronaTestResult.values().indexOf(test.result)
+        test.result?.let {
+            return CoronaTestResult.values().indexOf(it)
+        } ?: run {
+            return CoronaTestResult.values().indexOf(CoronaTestResult.NEGATIVE)
+        }
     }
 }
