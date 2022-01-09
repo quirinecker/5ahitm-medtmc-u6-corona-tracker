@@ -6,10 +6,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.updateLayoutParams
 import androidx.navigation.fragment.navArgs
 import com.example.coronatesttracker.databinding.FragmentOverviewBinding
+import com.example.coronatesttracker.model.CoronaTest
 import com.example.coronatesttracker.model.CoronaTestResult
 
 class OverviewFragment : Fragment() {
@@ -18,6 +20,7 @@ class OverviewFragment : Fragment() {
     private lateinit var binding: FragmentOverviewBinding
     private lateinit var negativeAreaLayoutParams: ViewGroup.LayoutParams
     private lateinit var positiveAreaLayoutParams: ViewGroup.LayoutParams
+    private lateinit var coronaTestData: Array<CoronaTest>
     private var scale: Float = 1f
     private val fullDiagramWidth = 350
 
@@ -29,6 +32,7 @@ class OverviewFragment : Fragment() {
             scale = it.resources.displayMetrics.density
         }
 
+        coronaTestData = arguments.coronaTests
     }
 
     override fun onCreateView(
@@ -38,16 +42,38 @@ class OverviewFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_overview, container, false)
         binding = FragmentOverviewBinding.bind(view)
 
+        setDiagramData()
+        setLocationCountList()
+
+        return view
+    }
+
+    private fun setLocationCountList() {
+        val listData = ArrayList<String>()
+
+        CoronaTest.locations.forEach { location ->
+            val locationTestCount = coronaTestData
+                .filter { it.location == location }
+                .count()
+
+            listData.add("${location.name}: $locationTestCount")
+        }
+
+        context?.let {
+            val adapter = ArrayAdapter(it, android.R.layout.simple_list_item_1, listData)
+            binding.testCountList.adapter = adapter
+        }
+    }
+
+    private fun setDiagramData() {
         val numberOfPositiveTests = getNumberOfTestsWhichAre(CoronaTestResult.POSITIVE)
         val numberOfNegativeTests = getNumberOfTestsWhichAre(CoronaTestResult.NEGATIVE)
         val numberOfTotalTests = numberOfNegativeTests + numberOfPositiveTests
 
-        setDiagramm(
+        setDiagram(
             numberOfPositiveTests * 100 / numberOfTotalTests,
             numberOfNegativeTests * 100 / numberOfTotalTests
         )
-
-        return view
     }
 
     private fun getNumberOfTestsWhichAre(result: CoronaTestResult): Int {
@@ -56,7 +82,7 @@ class OverviewFragment : Fragment() {
             .count()
     }
 
-    private fun setDiagramm(positivePercentage: Int, negativePercentage: Int) {
+    private fun setDiagram(positivePercentage: Int, negativePercentage: Int) {
         val positiveWidth = getWithFrom(positivePercentage)
         val negativeWidth = getWithFrom(negativePercentage)
 

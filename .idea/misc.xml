@@ -6,7 +6,7 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.23052536231884058" />
         <entry key="app/src/main/res/layout/fragment_corona_test_list.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_input_screen.xml" value="0.5542168674698795" />
-        <entry key="app/src/main/res/layout/fragment_overview.xml" value="0.75" />
+        <entry key="app/src/main/res/layout/fragment_overview.xml" value="0.5" />
         <entry key="app/src/main/res/layout/list_item.xml" value="0.4624094202898551" />
       </map>
     </option>
