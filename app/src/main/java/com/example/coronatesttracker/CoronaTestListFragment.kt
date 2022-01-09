@@ -1,10 +1,12 @@
 package com.example.coronatesttracker
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.example.coronatesttracker.adapter.CoronaTestListAdapter
 import com.example.coronatesttracker.databinding.FragmentCoronaTestListBinding
 import com.example.coronatesttracker.model.CoronaTest
@@ -13,6 +15,20 @@ import com.example.coronatesttracker.model.CoronaTest
 class CoronaTestListFragment : Fragment() {
 
     private lateinit var binding: FragmentCoronaTestListBinding
+    private lateinit var tests: MutableList<CoronaTest>
+    private lateinit var adapter: CoronaTestListAdapter
+    private var currentTestInCreation: CoronaTest? = null
+
+    override fun onResume() {
+        super.onResume()
+        currentTestInCreation?.let {
+            tests.add(it)
+            adapter.notifyDataSetChanged()
+            Log.i("Local: ", tests.size.toString())
+            Log.i("Remote: ", adapter.tests.size.toString())
+        }
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,6 +55,10 @@ class CoronaTestListFragment : Fragment() {
 
     private fun createTest() {
         val testToCreate = CoronaTest()
+        currentTestInCreation = testToCreate
+        val action = CoronaTestListFragmentDirections
+            .actionCoronaTestListFragmentToInputScreenFragment(testToCreate)
+        findNavController().navigate(action)
     }
 
     private fun openDailyOverview() {
@@ -63,18 +83,18 @@ class CoronaTestListFragment : Fragment() {
     }
 
     private fun setupAdapter() {
-        adapter?.let {
+        createAdapter()?.let {
             binding.listView.adapter = it
         }
     }
 
-    private val adapter: CoronaTestListAdapter?
-            get() {
-                context?.let {
-                    val sampleData = CoronaTest.sample
-                    return CoronaTestListAdapter(it, sampleData)
-                } ?: run {
-                    return null
-                }
-            }
+    private fun createAdapter(): CoronaTestListAdapter? {
+        context?.let {
+            tests = CoronaTest.sample.toMutableList()
+            adapter = CoronaTestListAdapter(it, tests)
+            return adapter
+        } ?: run {
+            return null
+        }
+    }
 }

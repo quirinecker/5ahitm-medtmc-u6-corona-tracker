@@ -77,7 +77,7 @@
             android:ems="10"
             android:hint="@string/date_time_label_hint"
             android:importantForAutofill="no"
-            android:inputType="date"
+            android:inputType="date|textUri|time"
             android:labelFor="@id/dateLabel"
             app:layout_constraintBaseline_toBaselineOf="@+id/dateLabel"
             app:layout_constraintEnd_toEndOf="parent"
