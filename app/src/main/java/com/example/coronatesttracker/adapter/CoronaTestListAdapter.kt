@@ -17,7 +17,10 @@ import com.example.coronatesttracker.model.CoronaTest
 import com.example.coronatesttracker.model.CoronaTestResult
 import java.time.format.DateTimeFormatter
 
-class CoronaTestListAdapter(private val context: Context, var tests: List<CoronaTest>): BaseAdapter() {
+class CoronaTestListAdapter(private val context: Context, private val tests: List<CoronaTest>): BaseAdapter() {
+
+    private val dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")
+
     override fun getCount(): Int {
         Log.i(this::class.simpleName, tests.size.toString())
         return tests.size
@@ -43,7 +46,7 @@ class CoronaTestListAdapter(private val context: Context, var tests: List<Corona
             val test = tests[position]
 
             test.date?.let {
-                binding.dateField.text = it.format(DateTimeFormatter.ISO_DATE_TIME)
+                binding.dateField.text = it.format(dateTimeFormatter)
             }
 
             test.location?.let {
