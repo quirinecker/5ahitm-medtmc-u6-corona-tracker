@@ -20,8 +20,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/formContaner"
-        android:layout_width="411dp"
-        android:layout_height="234dp"
+        android:layout_width="389dp"
+        android:layout_height="317dp"
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -81,6 +81,7 @@
             android:labelFor="@id/dateLabel"
             app:layout_constraintBaseline_toBaselineOf="@+id/dateLabel"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="@+id/barrier2"
             tools:ignore="SpeakableTextPresentCheck,DuplicateSpeakableTextCheck" />
 
@@ -88,25 +89,23 @@
             android:id="@+id/resultField"
             android:layout_width="250dp"
             android:layout_height="48dp"
-            app:layout_constraintBottom_toTopOf="@+id/placeField"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/barrier2"
-            app:layout_constraintTop_toBottomOf="@+id/dateField"
+            app:layout_constraintBottom_toBottomOf="@+id/resultLabel"
+            app:layout_constraintEnd_toEndOf="@+id/dateField"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@+id/dateField"
+            app:layout_constraintTop_toTopOf="@+id/resultLabel"
             tools:ignore="SpeakableTextPresentCheck" />
 
-        <EditText
-            android:id="@+id/placeField"
-            android:layout_width="250dp"
-            android:layout_height="49dp"
-            android:ems="10"
-            android:hint="@string/place_label"
-            android:importantForAutofill="no"
-            android:inputType="textPersonName"
-            android:text="@string/place_label"
-            app:layout_constraintBaseline_toBaselineOf="@+id/placeLabel"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/barrier2"
-            tools:ignore="DuplicateSpeakableTextCheck" />
+        <Spinner
+            android:id="@+id/location_field"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            app:layout_constraintBottom_toBottomOf="@+id/placeLabel"
+            app:layout_constraintEnd_toEndOf="@+id/resultField"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@+id/resultField"
+            app:layout_constraintTop_toTopOf="@+id/placeLabel"
+            tools:ignore="SpeakableTextPresentCheck" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
