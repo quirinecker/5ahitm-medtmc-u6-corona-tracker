@@ -14,4 +14,5 @@
     <string name="date_time_label_hint">dd.MM.yyyy hh:mm</string>
     <string name="positive_area_label">positiv</string>
     <string name="negative_area_label">negativ</string>
+    <string name="positive_negative_diagram_title">Positive/Negative Diagram</string>
 </resources>
