@@ -12,4 +12,6 @@
     <string name="place_label">Standort</string>
     <string name="save_button">speichern</string>
     <string name="date_time_label_hint">dd.MM.yyyy hh:mm</string>
+    <string name="positive_area_label">positiv</string>
+    <string name="negative_area_label">negativ</string>
 </resources>

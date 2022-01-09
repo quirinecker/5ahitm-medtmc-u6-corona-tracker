@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_coronaTestListFragment_to_inputScreenFragment"
             app:destination="@id/inputScreenFragment"/>
+        <action
+            android:id="@+id/action_coronaTestListFragment_to_overviewFragment"
+            app:destination="@id/overviewFragment" />
     </fragment>
     <fragment
         android:id="@+id/inputScreenFragment"
@@ -23,6 +26,17 @@
         <argument
             android:name="coronaTest"
             app:argType="com.example.coronatesttracker.model.CoronaTest" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/overviewFragment"
+        android:name="com.example.coronatesttracker.OverviewFragment"
+        android:label="fragment_overview"
+        tools:layout="@layout/fragment_overview">
+
+        <argument
+            android:name="coronaTests"
+            app:argType="com.example.coronatesttracker.model.CoronaTest[]" />
 
     </fragment>
 </navigation>

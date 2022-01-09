@@ -10,6 +10,8 @@ import androidx.navigation.fragment.findNavController
 import com.example.coronatesttracker.adapter.CoronaTestListAdapter
 import com.example.coronatesttracker.databinding.FragmentCoronaTestListBinding
 import com.example.coronatesttracker.model.CoronaTest
+import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 
@@ -61,7 +63,20 @@ class CoronaTestListFragment : Fragment() {
     }
 
     private fun openDailyOverview() {
-        TODO("Not yet implemented")
+        val action = CoronaTestListFragmentDirections
+            .actionCoronaTestListFragmentToOverviewFragment(filterTestsByToday())
+
+        findNavController().navigate(action)
+    }
+
+    private fun filterTestsByToday(): Array<CoronaTest> {
+        return tests
+            .filter { test -> test.date != null }
+            .filter {test ->
+                val dateEvaluated = test.date!!
+                dateEvaluated.isAfter(LocalDate.now().atStartOfDay()) && dateEvaluated.isBefore(LocalDate.now().atTime(23, 59,59))
+            }
+            .toTypedArray()
     }
 
     private fun setBinding(view: View) {

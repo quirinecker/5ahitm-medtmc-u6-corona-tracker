@@ -1,16 +1,17 @@
 package com.example.coronatesttracker.model
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 import java.io.Serializable
-import java.time.LocalDate
 import java.time.LocalDateTime
-import java.util.*
 
+@Parcelize
 data class CoronaTest(
     val id: String = nextId(),
     var date: LocalDateTime? = null,
     var result: CoronaTestResult? = null,
     var location: Location? = null,
-): Serializable {
+): Serializable, Parcelable {
     companion object {
         private var currentIdNumber = 1000
 
