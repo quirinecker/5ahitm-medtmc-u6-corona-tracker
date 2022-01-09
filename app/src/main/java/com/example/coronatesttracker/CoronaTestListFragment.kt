@@ -16,10 +16,9 @@ import java.time.format.DateTimeFormatter
 class CoronaTestListFragment : Fragment() {
 
     private lateinit var binding: FragmentCoronaTestListBinding
-    private lateinit var tests: MutableList<CoronaTest>
+    private val tests: MutableList<CoronaTest> = CoronaTest.sample.toMutableList()
     private lateinit var adapter: CoronaTestListAdapter
     private var currentTestInCreation: CoronaTest? = null
-
 
     override fun onResume() {
         super.onResume()
@@ -88,7 +87,6 @@ class CoronaTestListFragment : Fragment() {
 
     private fun createAdapter(): CoronaTestListAdapter? {
         context?.let {
-            tests = CoronaTest.sample.toMutableList()
             adapter = CoronaTestListAdapter(it, tests)
             return adapter
         } ?: run {
