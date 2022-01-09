@@ -138,18 +138,7 @@ class InputScreenFragment : Fragment() {
     }
 
     private fun getLocations(): Array<Location> {
-        return Location::class
-            .companionObject!!
-            .memberProperties
-            .filter { isFieldAccessible(it) }
-            .map { it.getter.call(Location.Companion) as Location }
-            .toTypedArray()
-    }
-
-    private fun isFieldAccessible(property: KProperty1<*, *>): Boolean {
-        return property.javaGetter?.modifiers?.let {
-            !Modifier.isPrivate(it)
-        } ?: false
+        return CoronaTest.locations
     }
 
     private fun setId(test: CoronaTest) {
