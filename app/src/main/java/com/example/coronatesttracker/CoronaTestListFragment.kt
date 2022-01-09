@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.coronatesttracker.adapter.CoronaTestListAdapter
 import com.example.coronatesttracker.databinding.FragmentCoronaTestListBinding
 import com.example.coronatesttracker.model.CoronaTest
+import java.time.format.DateTimeFormatter
 
 
 class CoronaTestListFragment : Fragment() {
@@ -19,13 +20,12 @@ class CoronaTestListFragment : Fragment() {
     private lateinit var adapter: CoronaTestListAdapter
     private var currentTestInCreation: CoronaTest? = null
 
+
     override fun onResume() {
         super.onResume()
         currentTestInCreation?.let {
             tests.add(it)
             adapter.notifyDataSetChanged()
-            Log.i("Local: ", tests.size.toString())
-            Log.i("Remote: ", adapter.tests.size.toString())
         }
 
     }
@@ -75,10 +75,8 @@ class CoronaTestListFragment : Fragment() {
     }
 
     private fun setupListener() {
-        adapter?.let {
-            binding.listView.setOnItemClickListener { parent, view, position, id ->
-                it.onClick(parent, view, position, id)
-            }
+        binding.listView.setOnItemClickListener { parent, view, position, id ->
+            adapter.onClick(parent, view, position, id)
         }
     }
 
