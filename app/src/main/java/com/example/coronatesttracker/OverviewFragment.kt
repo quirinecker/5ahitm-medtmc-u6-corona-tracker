@@ -18,8 +18,6 @@ class OverviewFragment : Fragment() {
 
     private val arguments: OverviewFragmentArgs by navArgs()
     private lateinit var binding: FragmentOverviewBinding
-    private lateinit var negativeAreaLayoutParams: ViewGroup.LayoutParams
-    private lateinit var positiveAreaLayoutParams: ViewGroup.LayoutParams
     private lateinit var coronaTestData: Array<CoronaTest>
     private var scale: Float = 1f
     private val fullDiagramWidth = 350
