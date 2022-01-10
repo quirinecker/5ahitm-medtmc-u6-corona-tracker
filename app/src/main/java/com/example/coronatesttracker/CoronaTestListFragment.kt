@@ -1,7 +1,6 @@
 package com.example.coronatesttracker
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,8 +10,6 @@ import com.example.coronatesttracker.adapter.CoronaTestListAdapter
 import com.example.coronatesttracker.databinding.FragmentCoronaTestListBinding
 import com.example.coronatesttracker.model.CoronaTest
 import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 
 class CoronaTestListFragment : Fragment() {
@@ -89,8 +86,8 @@ class CoronaTestListFragment : Fragment() {
     }
 
     private fun setupListener() {
-        binding.listView.setOnItemClickListener { parent, view, position, id ->
-            adapter.onClick(parent, view, position, id)
+        binding.listView.setOnItemClickListener { _, view, position, _ ->
+            adapter.onClick(view, position)
         }
     }
 

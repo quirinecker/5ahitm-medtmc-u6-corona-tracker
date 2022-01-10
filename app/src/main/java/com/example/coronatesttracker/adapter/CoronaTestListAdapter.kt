@@ -5,10 +5,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.BaseAdapter
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
 import com.example.coronatesttracker.CoronaTestListFragmentDirections
 import com.example.coronatesttracker.R
@@ -20,6 +18,7 @@ import java.time.format.DateTimeFormatter
 class CoronaTestListAdapter(private val context: Context, private val tests: List<CoronaTest>): BaseAdapter() {
 
     private val dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")
+    private lateinit var binding: ListItemBinding
 
     override fun getCount(): Int {
         Log.i(this::class.simpleName, tests.size.toString())
@@ -35,47 +34,71 @@ class CoronaTestListAdapter(private val context: Context, private val tests: Lis
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        var convertView = convertView
+        val test = tests[position]
+        val evaluatedView = evaluateConvertView(convertView, parent)
+        binding = ListItemBinding.bind(evaluatedView)
 
-        if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.list_item, parent, false)
-        }
 
-        convertView?.let { view ->
-            val binding = ListItemBinding.bind(view)
-            val test = tests[position]
+        setId(test)
+        setLocation(test)
+        setDate(test)
+        setResult(test)
 
-            test.date?.let {
-                binding.dateField.text = it.format(dateTimeFormatter)
-            }
-
-            test.location?.let {
-                binding.placeField.text = it.name
-            }
-
-            binding.idField.text = test.id
-
-            val colorId = when(test.result) {
-                CoronaTestResult.POSITIVE -> R.color.positive
-                CoronaTestResult.NEGATIVE -> R.color.negative
-                null -> R.color.negative
-            }
-
-            binding.resultColorCode.setBackgroundColor(ResourcesCompat.getColor(
-                context.resources,
-                colorId,
-                null
-            ))
-        }
-
-        return convertView!!
+        return evaluatedView
     }
 
-    fun onClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+    private fun evaluateConvertView(view: View?, parent: ViewGroup?): View {
+        return view ?: LayoutInflater.from(context).inflate(
+            R.layout.list_item,
+            parent,
+            false
+        )
+    }
+
+    private fun setId(test: CoronaTest) {
+        binding.idField.text = test.id
+    }
+
+    private fun setLocation(test: CoronaTest) {
+        test.location?.let {
+            binding.placeField.text = it.name
+        }
+    }
+
+    private fun setDate(test: CoronaTest) {
+        test.date?.let {
+            binding.dateField.text = it.format(dateTimeFormatter)
+        }
+    }
+
+    private fun setResult(test: CoronaTest) {
+        val colorId = getColorCode(test)
+        setBackgroundColor(colorId, binding.resultColorCode)
+    }
+
+    private fun getColorCode(test: CoronaTest): Int {
+        return when(test.result) {
+            CoronaTestResult.POSITIVE -> R.color.positive
+            CoronaTestResult.NEGATIVE -> R.color.negative
+            null -> R.color.negative
+        }
+    }
+
+    private fun setBackgroundColor(colorId: Int, of: View) {
+        of.setBackgroundColor(ResourcesCompat.getColor(
+            context.resources,
+            colorId,
+            null
+        ))
+    }
+
+    fun onClick(view: View?, position: Int) {
         view?.let {
             val test = tests[position]
             val navController = view.findNavController()
-            val action = CoronaTestListFragmentDirections.actionCoronaTestListFragmentToInputScreenFragment(test)
+            val action = CoronaTestListFragmentDirections
+                .actionCoronaTestListFragmentToInputScreenFragment(test)
+
             navController.navigate(action)
         }
     }
