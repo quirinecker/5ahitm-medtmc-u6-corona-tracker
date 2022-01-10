@@ -13,6 +13,7 @@ import androidx.navigation.fragment.navArgs
 import com.example.coronatesttracker.databinding.FragmentOverviewBinding
 import com.example.coronatesttracker.model.CoronaTest
 import com.example.coronatesttracker.model.CoronaTestResult
+import com.example.coronatesttracker.model.Location
 
 class OverviewFragment : Fragment() {
 
@@ -41,26 +42,9 @@ class OverviewFragment : Fragment() {
         binding = FragmentOverviewBinding.bind(view)
 
         setDiagramData()
-        setLocationCountList()
+        setLocationCountListData()
 
         return view
-    }
-
-    private fun setLocationCountList() {
-        val listData = ArrayList<String>()
-
-        CoronaTest.locations.forEach { location ->
-            val locationTestCount = coronaTestData
-                .filter { it.location == location }
-                .count()
-
-            listData.add("${location.name}: $locationTestCount")
-        }
-
-        context?.let {
-            val adapter = ArrayAdapter(it, android.R.layout.simple_list_item_1, listData)
-            binding.testCountList.adapter = adapter
-        }
     }
 
     private fun setDiagramData() {
@@ -81,8 +65,8 @@ class OverviewFragment : Fragment() {
     }
 
     private fun setDiagram(positivePercentage: Int, negativePercentage: Int) {
-        val positiveWidth = getWithFrom(positivePercentage)
-        val negativeWidth = getWithFrom(negativePercentage)
+        val positiveWidth = getWidthFor(positivePercentage)
+        val negativeWidth = getWidthFor(negativePercentage)
 
         Log.d("positive", positiveWidth.toString())
         Log.d("negative", negativeWidth.toString())
@@ -91,19 +75,51 @@ class OverviewFragment : Fragment() {
         setNegativeAreaWidth(negativeWidth)
     }
 
-    private fun getWithFrom(percentage: Int): Float {
+
+    private fun getWidthFor(percentage: Int): Float {
         return fullDiagramWidth * (percentage.toFloat() / 100)
     }
 
-    private fun setNegativeAreaWidth(value: Float) {
-        binding.negativeArea.updateLayoutParams<ConstraintLayout.LayoutParams> {
-            width = (value * scale + 0.5f).toInt()
-        }
+    private fun setPositiveAreaWidth(value: Float) {
+        setWidthFor(binding.positiveArea, value)
     }
 
-    private fun setPositiveAreaWidth(value: Float) {
-        binding.positiveArea.updateLayoutParams<ConstraintLayout.LayoutParams> {
-            width = (value * scale + 0.5f).toInt()
+    private fun setNegativeAreaWidth(value: Float) {
+        setWidthFor(binding.negativeArea, value)
+    }
+
+    private fun setWidthFor(view: View, withWidth: Float) {
+        view.updateLayoutParams<ViewGroup.LayoutParams> {
+            width = (withWidth * scale + 0.5f).toInt()
+        }
+    }
+    
+    private fun setLocationCountListData() {
+        val listData = getListData()
+        setListData(listData)
+    }
+
+    private fun getListData(): Array<String> {
+        val listData = ArrayList<String>()
+
+        CoronaTest.locations.forEach { location ->
+            val locationTestCount = getTestsBy(location)
+            listData.add("${location.name}: $locationTestCount")
+        }
+
+        return listData.toTypedArray()
+    }
+
+    private fun getTestsBy(location: Location): Array<CoronaTest> {
+        return coronaTestData
+            .filter { it.location == location }
+            .toTypedArray()
+    }
+
+    private fun setListData(listData: Array<String>) {
+        context?.let {
+            val adapter = ArrayAdapter(it, android.R.layout.simple_list_item_1, listData)
+            binding.testCountList.adapter = adapter
         }
     }
 
