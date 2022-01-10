@@ -1,5 +1,6 @@
 package com.example.coronatesttracker
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,13 +14,8 @@ import com.example.coronatesttracker.databinding.FragmentInputScreenBinding
 import com.example.coronatesttracker.model.CoronaTest
 import com.example.coronatesttracker.model.CoronaTestResult
 import com.example.coronatesttracker.model.Location
-import java.lang.reflect.Modifier
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import kotlin.reflect.KProperty1
-import kotlin.reflect.full.companionObject
-import kotlin.reflect.full.memberProperties
-import kotlin.reflect.jvm.javaGetter
 
 class InputScreenFragment : Fragment() {
 
@@ -36,20 +32,20 @@ class InputScreenFragment : Fragment() {
 
         setBinding(view)
         setTestToEdit(args)
-        setInputs()
         setListeners()
+        setInputs()
 
         return view
-    }
-
-    private fun setTestToEdit(args: InputScreenFragmentArgs) {
-        test = args.coronaTest
     }
 
     private fun setBinding(view: View?) {
         view?.let {
             binding = FragmentInputScreenBinding.bind(it)
         }
+    }
+
+    private fun setTestToEdit(args: InputScreenFragmentArgs) {
+        test = args.coronaTest
     }
 
     private fun setListeners() {
@@ -59,22 +55,18 @@ class InputScreenFragment : Fragment() {
     }
 
     private fun save() {
-        test.location = getPlace()
-        test.result = getResult()
         test.date = getDate()
+        test.location = getLocation()
+        test.result = getResult()
 
         returnToListView()
     }
 
-    private fun returnToListView() {
-        findNavController().popBackStack()
+    private fun getDate(): LocalDateTime {
+        return LocalDateTime.parse(binding.dateField.text.toString(), dateTimeFormatter)
     }
 
-    private fun getResult(): CoronaTestResult {
-        return CoronaTestResult.valueOf(getSelectedSpinnerItem(binding.resultField))
-    }
-
-    private fun getPlace(): Location {
+    private fun getLocation(): Location {
         val selectedItemString = getSelectedSpinnerItem(binding.locationField)
         return getLocationByName(selectedItemString)
     }
@@ -83,22 +75,30 @@ class InputScreenFragment : Fragment() {
         return getLocations().first { it.name == name }
     }
 
+    private fun getResult(): CoronaTestResult {
+        return CoronaTestResult.valueOf(getSelectedSpinnerItem(binding.resultField))
+    }
+
     private fun getSelectedSpinnerItem(spinner: Spinner): String {
         return spinner.selectedItem.toString()
     }
 
-    private fun getDate(): LocalDateTime {
-        return LocalDateTime.parse(binding.dateField.text.toString(), dateTimeFormatter)
+    private fun returnToListView() {
+        findNavController().popBackStack()
     }
 
     private fun setInputs() {
-        setId(test)
-        setLocation(test)
-        setDate(test)
-        setResult(test)
+        setId()
+        setLocation()
+        setDate()
+        setResult()
     }
 
-    private fun setDate(test: CoronaTest) {
+    private fun setId() {
+        binding.idField.text = test.id
+    }
+
+    private fun setDate() {
         test.date?.let {
             val dateString = it.format(dateTimeFormatter)
             binding.dateField.setText(dateString)
@@ -107,28 +107,26 @@ class InputScreenFragment : Fragment() {
         }
     }
 
-    private fun setLocation(test: CoronaTest) {
-        context?.let { context ->
-            val adapter = ArrayAdapter(
-                context,
-                android.R.layout.simple_spinner_item,
-                getLocationNames()
-            )
+    private fun setLocation() {
+        setDropDownSpinnerAdapter(getLocationNames(), binding.locationField)
+        setLocationSpinnerSelection()
+    }
 
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            binding.locationField.adapter = adapter
-
-            test.location?.let {
-                setCurrentSelection(it)
-            } ?: also {
-                binding.locationField.setSelection(0)
-            }
+    private fun setLocationSpinnerSelection() {
+        test.location?.let {
+            setCurrentLocationSelection(it)
+        } ?: also {
+            binding.locationField.setSelection(0)
         }
     }
 
-    private fun setCurrentSelection(test: Location) {
+    private fun setCurrentLocationSelection(test: Location) {
         val index = getLocationNames().indexOf(test.name)
         binding.locationField.setSelection(index)
+    }
+
+    private fun getLocations(): Array<Location> {
+        return CoronaTest.locations
     }
 
     private fun getLocationNames(): Array<String> {
@@ -137,28 +135,15 @@ class InputScreenFragment : Fragment() {
             .toTypedArray()
     }
 
-    private fun getLocations(): Array<Location> {
-        return CoronaTest.locations
-    }
+    private fun setResult() {
+        setDropDownSpinnerAdapter(
+            CoronaTestResult.values().map {
+                it.toString()
+            }.toTypedArray(),
+            binding.resultField
+        )
 
-    private fun setId(test: CoronaTest) {
-        binding.idField.text = test.id
-    }
-
-    private fun setResult(test: CoronaTest) {
-        context?.let {
-            val coronaTestResultOptions = CoronaTestResult.values()
-
-            val adapter = ArrayAdapter(
-                it,
-                android.R.layout.simple_spinner_item,
-                coronaTestResultOptions.map { entry -> entry.toString() }
-            )
-
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            binding.resultField.adapter = adapter
-            binding.resultField.setSelection(getSelectionIndexOf(test))
-        }
+        binding.resultField.setSelection(getSelectionIndexOf(test))
     }
 
     private fun getSelectionIndexOf(
@@ -169,5 +154,25 @@ class InputScreenFragment : Fragment() {
         } ?: run {
             return CoronaTestResult.values().indexOf(CoronaTestResult.NEGATIVE)
         }
+    }
+
+    private fun setDropDownSpinnerAdapter(data: Array<String>, element: Spinner) {
+        context?.let { context ->
+            val adapter = getAdapterWith(context, data)
+            setAdapterForSpinner(element, adapter)
+        }
+    }
+
+    private fun setAdapterForSpinner(spinner: Spinner, adapter: ArrayAdapter<String>) {
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinner.adapter = adapter
+    }
+
+    private fun getAdapterWith(context: Context, andData: Array<String>): ArrayAdapter<String> {
+        return ArrayAdapter(
+            context,
+            android.R.layout.simple_spinner_item,
+            andData
+        )
     }
 }
