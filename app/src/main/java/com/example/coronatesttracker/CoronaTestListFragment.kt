@@ -35,10 +35,14 @@ class CoronaTestListFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_corona_test_list, container, false)
 
         setBinding(view)
-        setupListView()
         setupListeners()
+        setupListView()
 
         return view
+    }
+
+    private fun setBinding(view: View) {
+        binding = FragmentCoronaTestListBinding.bind(view)
     }
 
     private fun setupListeners() {
@@ -76,19 +80,9 @@ class CoronaTestListFragment : Fragment() {
             .toTypedArray()
     }
 
-    private fun setBinding(view: View) {
-        binding = FragmentCoronaTestListBinding.bind(view)
-    }
-
     private fun setupListView() {
         setupAdapter()
-        setupListener()
-    }
-
-    private fun setupListener() {
-        binding.listView.setOnItemClickListener { _, view, position, _ ->
-            adapter.onClick(view, position)
-        }
+        setupItemClickListener()
     }
 
     private fun setupAdapter() {
@@ -105,4 +99,11 @@ class CoronaTestListFragment : Fragment() {
             return null
         }
     }
+
+    private fun setupItemClickListener() {
+        binding.listView.setOnItemClickListener { _, view, position, _ ->
+            adapter.onClick(view, position)
+        }
+    }
+
 }
