@@ -103,7 +103,8 @@ class InputScreenFragment : Fragment() {
             val dateString = it.format(dateTimeFormatter)
             binding.dateField.setText(dateString)
         } ?: run {
-            binding.dateField.setText("")
+            val dateString = LocalDateTime.now().format(dateTimeFormatter)
+            binding.dateField.setText(dateString)
         }
     }
 
