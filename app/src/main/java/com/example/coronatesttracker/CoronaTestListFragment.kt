@@ -22,10 +22,11 @@ class CoronaTestListFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         currentTestInCreation?.let {
-            tests.add(it)
-            adapter.notifyDataSetChanged()
+            if (it.location != null && it.date != null && it.result != null) {
+                tests.add(it)
+                adapter.notifyDataSetChanged()
+            }
         }
-
     }
 
     override fun onCreateView(
