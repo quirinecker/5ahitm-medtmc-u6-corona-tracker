@@ -68,9 +68,6 @@ class OverviewFragment : Fragment() {
         val positiveWidth = getWidthFor(positivePercentage)
         val negativeWidth = getWidthFor(negativePercentage)
 
-        Log.d("positive", positiveWidth.toString())
-        Log.d("negative", negativeWidth.toString())
-
         setPositiveAreaWidth(positiveWidth)
         setNegativeAreaWidth(negativeWidth)
     }
@@ -93,7 +90,7 @@ class OverviewFragment : Fragment() {
             width = (withWidth * scale + 0.5f).toInt()
         }
     }
-    
+
     private fun setLocationCountListData() {
         val listData = getListData()
         setListData(listData)
