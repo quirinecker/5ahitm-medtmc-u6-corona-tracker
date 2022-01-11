@@ -98,7 +98,7 @@ class OverviewFragment : Fragment() {
         val listData = ArrayList<String>()
 
         CoronaTest.locations.forEach { location ->
-            val locationTestCount = getTestsBy(location)
+            val locationTestCount = getTestsBy(location).size
             listData.add("${location.name}: $locationTestCount")
         }
 
